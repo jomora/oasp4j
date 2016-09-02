@@ -4,8 +4,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
 
 import net.sf.mmm.util.exception.api.ObjectNotFoundUserException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.oasp.gastronomy.restaurant.tablemanagement.common.api.Table;
 import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.Tablemanagement;
@@ -13,12 +19,16 @@ import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.to.TableEto;
 import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.to.TableSearchCriteriaTo;
 import io.oasp.gastronomy.restaurant.tablemanagement.service.api.rest.TablemanagementRestService;
 import io.oasp.module.jpa.common.api.to.PaginatedListTo;
+import io.oasp.module.logging.common.api.DiagnosticContextFacade;
 
 /**
  * @author agreul, gazzi, jmolinar
  */
 @Named("TablemanagementRestService")
 public class TablemanagementRestServiceImpl implements TablemanagementRestService {
+
+  @Inject
+  private DiagnosticContextFacade diagnosticCtx;
 
   private Tablemanagement tableManagement;
 
@@ -33,9 +43,16 @@ public class TablemanagementRestServiceImpl implements TablemanagementRestServic
     this.tableManagement = tableManagement;
   }
 
+  @Context
+  private HttpHeaders headers;
+
+  /** Logger instance. */
+  private static final Logger LOG = LoggerFactory.getLogger(TablemanagementRestServiceImpl.class);
+
   @Override
   public TableEto getTable(long id) {
 
+    LOG.info("My correlation id: " + this.diagnosticCtx.getCorrelationId());
     return this.tableManagement.findTable(id);
   }
 
@@ -88,5 +105,14 @@ public class TablemanagementRestServiceImpl implements TablemanagementRestServic
   public PaginatedListTo<TableEto> findTablesByPost(TableSearchCriteriaTo searchCriteriaTo) {
 
     return this.tableManagement.findTableEtos(searchCriteriaTo);
+  }
+
+  @Override
+  public Response getTableAsResponse(long id) {
+
+    LOG.info("Querying: {}", String.valueOf(id));
+    Response response = Response.ok(this.tableManagement.findTable(id)).build();
+    response.getHeaders().add("X-Correlation-Id", this.diagnosticCtx.getCorrelationId());
+    return response;
   }
 }

@@ -11,6 +11,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import io.oasp.gastronomy.restaurant.general.common.api.RestService;
 import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.Tablemanagement;
@@ -28,6 +29,10 @@ import io.oasp.module.jpa.common.api.to.PaginatedListTo;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public interface TablemanagementRestService extends RestService {
+
+  @GET
+  @Path("/table/test/{id}/")
+  public Response getTableAsResponse(@PathParam("id") long id);
 
   /**
    * Delegates to {@link Tablemanagement#findTable}.

@@ -9,6 +9,7 @@ import org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 import io.oasp.gastronomy.restaurant.general.common.api.RestService;
+import io.oasp.gastronomy.restaurant.general.service.impl.rest.filter.JaxrsCorrelationClientRequestFilter;
 
 /**
  * This class contains a method to aid simulating a REST client.
@@ -79,22 +80,25 @@ public class RestTestClientBuilder {
   public <T extends RestService> T build(Class<T> clazz, String userName, String tmpPassword, String tmpUrl) {
 
     JAXRSClientFactoryBean factoryBean = new JAXRSClientFactoryBean();
+    // final ClientProxyFactoryBean factoryBean = new ClientProxyFactoryBean();
     factoryBean.setAddress(tmpUrl);
     factoryBean.setHeaders(new HashMap<String, String>());
+    // factoryBean.getFeatures().add(new TraceeCxfFeature());
     // example for basic auth
     String payload = userName + ":" + tmpPassword;
     String authorizationHeader = "Basic " + Base64Utility.encode(payload.getBytes());
     factoryBean.getHeaders().put("Authorization", Arrays.asList(authorizationHeader));
-    factoryBean.setProviders(Arrays.asList(this.jacksonJsonProvider));
+    factoryBean.setProviders(Arrays.asList(this.jacksonJsonProvider, new JaxrsCorrelationClientRequestFilter()));
 
     factoryBean.setServiceClass(clazz);
+
     return factoryBean.create(clazz);
   }
 
   /*
    * @return the URL of the REST service.
    */
-  private String createRestServiceUrl() {
+  public String createRestServiceUrl() {
 
     return "http://localhost:" + this.localServerPort + "/services/rest";
   }
