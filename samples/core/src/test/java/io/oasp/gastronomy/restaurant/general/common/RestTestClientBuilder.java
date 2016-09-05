@@ -10,6 +10,7 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 import io.oasp.gastronomy.restaurant.general.common.api.RestService;
 import io.oasp.gastronomy.restaurant.general.service.impl.rest.filter.JaxrsCorrelationClientRequestFilter;
+import io.oasp.gastronomy.restaurant.general.service.impl.rest.interceptors.CxfCorrelationFeature;
 
 /**
  * This class contains a method to aid simulating a REST client.
@@ -83,7 +84,7 @@ public class RestTestClientBuilder {
     // final ClientProxyFactoryBean factoryBean = new ClientProxyFactoryBean();
     factoryBean.setAddress(tmpUrl);
     factoryBean.setHeaders(new HashMap<String, String>());
-    // factoryBean.getFeatures().add(new TraceeCxfFeature());
+    factoryBean.setFeatures(Arrays.asList(new CxfCorrelationFeature()));
     // example for basic auth
     String payload = userName + ":" + tmpPassword;
     String authorizationHeader = "Basic " + Base64Utility.encode(payload.getBytes());

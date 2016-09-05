@@ -110,6 +110,7 @@ public class TablemanagementRestClientTest extends AbstractRestServiceTest {
     String correlationId = extractAndVerifyCorrelationIdHeader(response);
 
     table.setState(TableState.OCCUPIED);
+
     table = tmpService.getTable(id);
     assertThat(table).isNotNull();
     Response secondResponse = WebClient.client(tmpService).getResponse();

@@ -52,7 +52,7 @@ public class TablemanagementRestServiceImpl implements TablemanagementRestServic
   @Override
   public TableEto getTable(long id) {
 
-    LOG.info("My correlation id: " + this.diagnosticCtx.getCorrelationId());
+    LOG.debug("My correlation id: " + this.diagnosticCtx.getCorrelationId());
     return this.tableManagement.findTable(id);
   }
 
@@ -112,7 +112,6 @@ public class TablemanagementRestServiceImpl implements TablemanagementRestServic
 
     LOG.info("Querying: {}", String.valueOf(id));
     Response response = Response.ok(this.tableManagement.findTable(id)).build();
-    response.getHeaders().add("X-Correlation-Id", this.diagnosticCtx.getCorrelationId());
     return response;
   }
 }
