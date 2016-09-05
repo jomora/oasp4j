@@ -11,6 +11,7 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import io.oasp.gastronomy.restaurant.general.common.api.RestService;
 import io.oasp.gastronomy.restaurant.general.service.impl.rest.filter.JaxrsCorrelationClientRequestFilter;
 import io.oasp.gastronomy.restaurant.general.service.impl.rest.interceptors.CxfCorrelationFeature;
+import io.oasp.module.logging.common.api.DiagnosticContextFacade;
 
 /**
  * This class contains a method to aid simulating a REST client.
@@ -35,6 +36,8 @@ public class RestTestClientBuilder {
    * The password used for authentication during testing.
    */
   private String password;
+
+  private DiagnosticContextFacade dcf;
 
   /**
    * This method creates a proxy for the specified {@code RestService} interface. Properties
@@ -84,7 +87,7 @@ public class RestTestClientBuilder {
     // final ClientProxyFactoryBean factoryBean = new ClientProxyFactoryBean();
     factoryBean.setAddress(tmpUrl);
     factoryBean.setHeaders(new HashMap<String, String>());
-    factoryBean.setFeatures(Arrays.asList(new CxfCorrelationFeature()));
+    factoryBean.setFeatures(Arrays.asList(new CxfCorrelationFeature(this.dcf)));
     // example for basic auth
     String payload = userName + ":" + tmpPassword;
     String authorizationHeader = "Basic " + Base64Utility.encode(payload.getBytes());
@@ -142,5 +145,15 @@ public class RestTestClientBuilder {
   public void setPassword(String password) {
 
     this.password = password;
+  }
+
+  /**
+   * @param dcf
+   */
+  public void setDiagnosticContextFacade(DiagnosticContextFacade dcf) {
+
+    this.dcf = dcf;
+    // TODO Auto-generated method stub
+
   }
 }

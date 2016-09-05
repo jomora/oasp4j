@@ -11,7 +11,8 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
+
+import io.oasp.module.logging.common.api.DiagnosticContextFacade;
 
 /**
  * TODO jmolinar This type ...
@@ -28,13 +29,17 @@ public class InboundCorrelationInterceptor extends AbstractPhaseInterceptor<Mess
   /** Logger instance. */
   private static final Logger LOG = LoggerFactory.getLogger(InboundCorrelationInterceptor.class);
 
+  private DiagnosticContextFacade dcf;
+
   /**
    * The constructor.
    *
    * @param phase
    */
-  public InboundCorrelationInterceptor() {
+  public InboundCorrelationInterceptor(DiagnosticContextFacade dcf) {
     super(Phase.READ);
+    this.dcf = dcf;
+
   }
 
   @Override
@@ -62,7 +67,7 @@ public class InboundCorrelationInterceptor extends AbstractPhaseInterceptor<Mess
       }
     }
     if (correlationId != null && !correlationId.isEmpty()) {
-      MDC.put(X_CORRELATION_ID, correlationId);
+      this.dcf.setCorrelationId(correlationId);
     }
   }
 

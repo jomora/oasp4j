@@ -12,6 +12,7 @@ import net.sf.mmm.util.exception.api.ObjectNotFoundUserException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import io.oasp.gastronomy.restaurant.tablemanagement.common.api.Table;
 import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.Tablemanagement;
@@ -28,6 +29,7 @@ import io.oasp.module.logging.common.api.DiagnosticContextFacade;
 public class TablemanagementRestServiceImpl implements TablemanagementRestService {
 
   @Inject
+  @Qualifier("container")
   private DiagnosticContextFacade diagnosticCtx;
 
   private Tablemanagement tableManagement;

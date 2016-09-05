@@ -17,6 +17,7 @@ import io.oasp.gastronomy.restaurant.general.common.RestTestClientBuilder;
 import io.oasp.gastronomy.restaurant.general.common.SecurityTestHelper;
 import io.oasp.gastronomy.restaurant.general.configuration.RestaurantTestConfig;
 import io.oasp.module.basic.configuration.SpringProfileConstants;
+import io.oasp.module.logging.common.api.DiagnosticContextFacade;
 import io.oasp.module.test.common.base.SubsystemTest;
 
 /**
@@ -70,6 +71,10 @@ public abstract class AbstractRestServiceTest extends SubsystemTest {
   @Inject
   private DbTestHelper dbTestHelper;
 
+  @Inject
+  @org.springframework.beans.factory.annotation.Qualifier("client")
+  private DiagnosticContextFacade dcf;
+
   /**
    * The {@code RestTestClientBuilder}.
    */
@@ -109,7 +114,7 @@ public abstract class AbstractRestServiceTest extends SubsystemTest {
     this.restTestClientBuilder.setUser(this.user);
     this.restTestClientBuilder.setPassword(this.password);
     this.restTestClientBuilder.setJacksonJsonProvider(this.jacksonJsonProvider);
-
+    this.restTestClientBuilder.setDiagnosticContextFacade(this.dcf);
     if (this.migration != null && !"".equals(this.migration)) {
       this.dbTestHelper.setMigrationVersion(this.migration);
     }

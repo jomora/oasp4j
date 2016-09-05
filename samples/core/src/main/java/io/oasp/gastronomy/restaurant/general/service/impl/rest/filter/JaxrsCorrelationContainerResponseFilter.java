@@ -10,6 +10,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import io.oasp.module.logging.common.api.DiagnosticContextFacade;
@@ -24,10 +25,16 @@ import io.oasp.module.logging.common.api.DiagnosticContextFacade;
 @Provider
 public class JaxrsCorrelationContainerResponseFilter implements ContainerResponseFilter {
 
+  /**
+   *
+   */
+  private static final String X_CORRELATION_ID = "X-Correlation-Id";
+
   /** Logger instance. */
   private static final Logger LOG = LoggerFactory.getLogger(JaxrsCorrelationContainerResponseFilter.class);
 
   @Inject
+  @Qualifier("container")
   private DiagnosticContextFacade diagnosticCtx;
 
   @Override
@@ -36,7 +43,7 @@ public class JaxrsCorrelationContainerResponseFilter implements ContainerRespons
 
     String correlationId = this.diagnosticCtx.getCorrelationId();
     LOG.info("MOSSEL MOSSEL correlation id: " + correlationId + this.getClass().getName());
-    responseContext.getHeaders().add("X-Correlation-Id", correlationId);
+    responseContext.getHeaders().add(X_CORRELATION_ID, correlationId);
   }
 
 }

@@ -19,6 +19,8 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -30,6 +32,8 @@ import io.oasp.gastronomy.restaurant.general.service.impl.rest.filter.JaxrsCorre
 import io.oasp.gastronomy.restaurant.tablemanagement.common.api.datatype.TableState;
 import io.oasp.gastronomy.restaurant.tablemanagement.logic.api.to.TableEto;
 import io.oasp.gastronomy.restaurant.tablemanagement.service.api.rest.TablemanagementRestService;
+import io.oasp.module.logging.common.api.DiagnosticContextFacade;
+import io.oasp.module.logging.common.impl.DiagnosticContextFacadeImpl;
 
 /**
  * TODO jmolinar This type ...
@@ -170,4 +174,13 @@ public class TablemanagementRestClientTest extends AbstractRestServiceTest {
     return map;
   }
 
+  @Configuration
+  public static class DiagnosticContextFacadeProvider {
+    @org.springframework.beans.factory.annotation.Qualifier("client")
+    @Bean
+    public DiagnosticContextFacade diagnosticContextFacade() {
+
+      return new DiagnosticContextFacadeImpl();
+    }
+  }
 }

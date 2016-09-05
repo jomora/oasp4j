@@ -12,7 +12,8 @@ import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
+
+import io.oasp.module.logging.common.api.DiagnosticContextFacade;
 
 /**
  * TODO jmolinar This type ...
@@ -27,19 +28,22 @@ public class OutboundCorrelationInterceptor extends AbstractPhaseInterceptor<Mes
 
   private static final String X_CORRELATION_ID = "X-Correlation-Id";
 
+  private DiagnosticContextFacade dcf;
+
   /**
    * The constructor.
    *
    * @param phase
    */
-  public OutboundCorrelationInterceptor() {
+  public OutboundCorrelationInterceptor(DiagnosticContextFacade dcf) {
     super(Phase.SEND);
+    this.dcf = dcf;
   }
 
   @Override
   public void handleMessage(Message message) throws Fault {
 
-    String correlationId = MDC.get(X_CORRELATION_ID);
+    String correlationId = this.dcf.getCorrelationId();
     if (correlationId != null) {
       Object headers = message.getContextualProperty(Message.PROTOCOL_HEADERS);
       if (headers instanceof TreeMap<?, ?>) {
