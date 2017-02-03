@@ -2,6 +2,7 @@ package io.oasp.gastronomy.restaurant.deliverymanagement.logic.base.usecase;
 
 import javax.inject.Inject;
 
+import io.oasp.gastronomy.restaurant.deliverymanagement.dataaccess.api.dao.DeliveryDao;
 import io.oasp.gastronomy.restaurant.general.logic.base.AbstractUc;
 
 /**

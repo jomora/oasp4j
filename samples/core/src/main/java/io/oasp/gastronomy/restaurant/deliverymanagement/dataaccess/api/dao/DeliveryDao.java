@@ -17,4 +17,5 @@ public interface DeliveryDao extends ApplicationDao<DeliveryEntity> {
    * @return the {@link PaginatedListTo} with the matching {@link DeliveryEntity} objects.
    */
   PaginatedListTo<DeliveryEntity> findDeliverys(DeliverySearchCriteriaTo criteria);
+
 }
