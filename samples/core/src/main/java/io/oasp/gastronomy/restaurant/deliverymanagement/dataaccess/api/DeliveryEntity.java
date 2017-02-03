@@ -33,4 +33,16 @@ public class DeliveryEntity extends ApplicationPersistenceEntity implements Deli
     return this.price;
   }
 
+  @Override
+  public void setAddress(String address) {
+
+    this.address = address;
+  }
+
+  @Override
+  public void setPrice(Double price) {
+
+    this.price = price;
+  }
+
 }
