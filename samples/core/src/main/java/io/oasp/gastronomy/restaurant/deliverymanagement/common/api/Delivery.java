@@ -1,6 +1,7 @@
 package io.oasp.gastronomy.restaurant.deliverymanagement.common.api;
 
 import io.oasp.gastronomy.restaurant.general.common.api.ApplicationEntity;
+import io.oasp.gastronomy.restaurant.general.common.api.datatype.Money;
 
 /**
  * TODO jmolinar This type ...
@@ -11,10 +12,10 @@ public interface Delivery extends ApplicationEntity {
 
   String getAddress();
 
-  Double getPrice();
+  Money getPrice();
 
   public void setAddress(String address);
 
-  public void setPrice(Double price);
+  public void setPrice(Money price);
 
 }

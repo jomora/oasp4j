@@ -18,6 +18,15 @@ CREATE TABLE StaffMember(
   CONSTRAINT UC_StaffMember_login UNIQUE(login)
 );
 
+-- *** Delivery ***
+CREATE TABLE Delivery(
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  modificationCounter INTEGER NOT NULL,
+  address VARCHAR(255),
+  price DECIMAL(19, 2),
+  CONSTRAINT PK_Delivery PRIMARY KEY(id)
+);
+
 -- *** Product ***
 CREATE TABLE Product(
   dType VARCHAR(31) NOT NULL,

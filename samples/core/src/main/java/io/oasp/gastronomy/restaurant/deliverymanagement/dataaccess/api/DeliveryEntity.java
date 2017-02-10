@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import io.oasp.gastronomy.restaurant.deliverymanagement.common.api.Delivery;
+import io.oasp.gastronomy.restaurant.general.common.api.datatype.Money;
 import io.oasp.gastronomy.restaurant.general.dataaccess.api.ApplicationPersistenceEntity;
 
 /**
@@ -17,30 +18,41 @@ public class DeliveryEntity extends ApplicationPersistenceEntity implements Deli
 
   private String address;
 
-  private Double price;
+  private Money price;
 
   private static final long serialVersionUID = 1L;
 
+  /**
+   * @return address
+   */
   @Override
   public String getAddress() {
 
     return this.address;
   }
 
-  @Override
-  public Double getPrice() {
-
-    return this.price;
-  }
-
+  /**
+   * @param address new value of {@link #getaddress}.
+   */
   @Override
   public void setAddress(String address) {
 
     this.address = address;
   }
 
+  /**
+   * @return price
+   */
   @Override
-  public void setPrice(Double price) {
+  public Money getPrice() {
+
+    return this.price;
+  }
+
+  /**
+   * @param price new value of {@link #getprice}.
+   */
+  public void setPrice(Money price) {
 
     this.price = price;
   }
