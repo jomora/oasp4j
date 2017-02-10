@@ -14,8 +14,8 @@ public interface Delivery extends ApplicationEntity {
 
   Money getPrice();
 
-  public void setAddress(String address);
+  void setAddress(String address);
 
-  public void setPrice(Money price);
+  void setPrice(Money price);
 
 }
