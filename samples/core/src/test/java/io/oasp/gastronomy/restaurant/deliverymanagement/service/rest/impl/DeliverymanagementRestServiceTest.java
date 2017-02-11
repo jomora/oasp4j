@@ -19,6 +19,15 @@ import io.oasp.module.jpa.common.api.to.PaginatedListTo;
 @TestPropertySource(properties = { "flyway.locations=filesystem:src/test/resources/db/tablemanagement" })
 public class DeliverymanagementRestServiceTest extends AbstractRestServiceTest {
 
+  private DeliverymanagementRestService service;
+
+  @Override
+  protected void doSetUp() {
+
+    super.doSetUp();
+    this.service = getRestTestClientBuilder().build(DeliverymanagementRestService.class, "waiter");
+    getDbTestHelper().resetDatabase();
+  }
 
   @Test
   public void write() {
@@ -26,20 +35,15 @@ public class DeliverymanagementRestServiceTest extends AbstractRestServiceTest {
     DeliveryEto eto = new DeliveryEto();
     eto.setAddress("Bikini Bottom");
     eto.setPrice(new Money(1.2));
-    DeliverymanagementRestService service =
-        getRestTestClientBuilder().build(DeliverymanagementRestService.class, "waiter");
     assertThat(eto.getId()).isNull();
-    eto = service.saveDelivery(eto);
+    eto = this.service.saveDelivery(eto);
     assertThat(eto.getId()).isNotNull();
-    getDbTestHelper().resetDatabase();
   }
 
   @Test
   public void readAll() {
 
-    DeliverymanagementRestService service =
-        getRestTestClientBuilder().build(DeliverymanagementRestService.class, "waiter");
-    PaginatedListTo<DeliveryEto> findDeliverysByPost = service.findDeliverysByPost(new DeliverySearchCriteriaTo());
+    PaginatedListTo<DeliveryEto> findDeliverysByPost = this.service.findDeliverysByPost(new DeliverySearchCriteriaTo());
     assertThat(findDeliverysByPost.getResult()).isEmpty();
   }
 }
