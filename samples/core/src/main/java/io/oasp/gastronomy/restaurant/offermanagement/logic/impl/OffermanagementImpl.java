@@ -1,5 +1,22 @@
 package io.oasp.gastronomy.restaurant.offermanagement.logic.impl;
 
+import java.sql.Blob;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+
+import net.sf.mmm.util.exception.api.ObjectMismatchException;
+import net.sf.mmm.util.exception.api.ObjectNotFoundUserException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.oasp.gastronomy.restaurant.general.common.api.constants.PermissionConstants;
 import io.oasp.gastronomy.restaurant.general.logic.api.to.BinaryObjectEto;
 import io.oasp.gastronomy.restaurant.general.logic.base.AbstractComponentFacade;
@@ -27,28 +44,14 @@ import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductFilter;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductSearchCriteriaTo;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.ProductSortBy;
 import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.SideDishEto;
+import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.SpecialEto;
+import io.oasp.gastronomy.restaurant.offermanagement.logic.api.to.SpecialSearchCriteriaTo;
+import io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase.UcFindSpecial;
+import io.oasp.gastronomy.restaurant.offermanagement.logic.api.usecase.UcManageSpecial;
 import io.oasp.module.jpa.common.api.to.PaginatedListTo;
-
-import java.sql.Blob;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import javax.annotation.security.RolesAllowed;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.transaction.Transactional;
-import javax.validation.Valid;
-
-import net.sf.mmm.util.exception.api.ObjectMismatchException;
-import net.sf.mmm.util.exception.api.ObjectNotFoundUserException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Implementation class for {@link Offermanagement}.
- *
  */
 @Named
 @Transactional
@@ -56,23 +59,38 @@ public class OffermanagementImpl extends AbstractComponentFacade implements Offe
 
   private static final Logger LOG = LoggerFactory.getLogger(OffermanagementImpl.class);
 
-  /** @see #getOfferDao() */
+  /**
+   * @see #getOfferDao()
+   */
   private OfferDao offerDao;
 
-  /** @see #setProductDao(ProductDao) */
+  /**
+   * @see #setProductDao(ProductDao)
+   */
   private ProductDao productDao;
 
-  /** @see #setMealDao(MealDao) */
+  /**
+   * @see #setMealDao(MealDao)
+   */
   private MealDao mealDao;
 
-  /** @see #setDrinkDao(DrinkDao) */
+  /**
+   * @see #setDrinkDao(DrinkDao)
+   */
   private DrinkDao drinkDao;
 
-  /** @see #setSideDishDao(SideDishDao) */
+  /**
+   * @see #setSideDishDao(SideDishDao)
+   */
   private SideDishDao sideDishDao;
 
-  /** **/
   private UcManageBinaryObject ucManageBinaryObject;
+
+  @Inject
+  private UcFindSpecial ucFindSpecial;
+
+  @Inject
+  private UcManageSpecial ucManageSpecial;
 
   /**
    * The constructor.
@@ -497,6 +515,30 @@ public class OffermanagementImpl extends AbstractComponentFacade implements Offe
   public void setSideDishDao(SideDishDao sideDishDao) {
 
     this.sideDishDao = sideDishDao;
+  }
+
+  @Override
+  public SpecialEto findSpecial(Long id) {
+
+    return this.ucFindSpecial.findSpecial(id);
+  }
+
+  @Override
+  public PaginatedListTo<SpecialEto> findSpecialEtos(SpecialSearchCriteriaTo criteria) {
+
+    return this.ucFindSpecial.findSpecialEtos(criteria);
+  }
+
+  @Override
+  public SpecialEto saveSpecial(SpecialEto special) {
+
+    return this.ucManageSpecial.saveSpecial(special);
+  }
+
+  @Override
+  public boolean deleteSpecial(Long id) {
+
+    return this.ucManageSpecial.deleteSpecial(id);
   }
 
 }

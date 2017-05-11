@@ -134,3 +134,26 @@ CREATE TABLE RevInfo(
   timestamp BIGINT NOT NULL,
   userLogin VARCHAR(255)
 );
+
+
+CREATE CACHED TABLE PUBLIC.SPECIAL(
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  modificationCounter INTEGER NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  offer_id BIGINT NOT NULL,
+  startingDay VARCHAR(255) NOT NULL,
+  startingHour INTEGER NOT NULL,
+  endingDay VARCHAR(255) NOT NULL,
+  endingHour INTEGER NOT NULL,
+  specialPrice DECIMAL(19, 2) NOT NULL,
+  comment VARCHAR(255)
+);
+
+create table Book(
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  modificationCounter INTEGER NOT NULL,
+  authors VARCHAR(255),
+  title VARCHAR(255)
+);
+
+insert into Book(id,modificationCounter,authors,title) values(123,0,'Michael Ende','Never Ending Story');

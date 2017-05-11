@@ -67,6 +67,7 @@
       <permission id="DeleteOrderPosition"/>
       <!-- tablemanagement -->
       <permission id="DeleteTable"/>
+      <permission id="MilanoTraining" />
     </permissions>
   </group>
   <!-- END ARCHETYPE SKIP -->

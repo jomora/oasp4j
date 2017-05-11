@@ -135,3 +135,15 @@ CREATE TABLE RevInfo(
   userLogin VARCHAR(255)
 );
 
+CREATE CACHED TABLE PUBLIC.SPECIAL(
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  modificationCounter INTEGER NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  offer_id BIGINT NOT NULL,
+  startingDay VARCHAR(255) NOT NULL,
+  startingHour INTEGER NOT NULL,
+  endingDay VARCHAR(255) NOT NULL,
+  endingHour INTEGER NOT NULL,
+  specialPrice DECIMAL(19, 2) NOT NULL,
+  comment VARCHAR(255)
+);
