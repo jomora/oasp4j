@@ -1,0 +1,4 @@
+[D: 2017-05-12 16:37:13,069] [P: WARN ] [C: ] [T: main] [L: org.flywaydb.core.internal.util.Locations] - [M: Discarding location 'classpath:db/migration/h2' as it is a sublocation of 'classpath:db/migration']
+[D: 2017-05-12 16:37:13,084] [P: WARN ] [C: ] [T: main] [L: org.flywaydb.core.internal.util.Locations] - [M: Discarding location 'classpath:db/migration/h2' as it is a sublocation of 'classpath:db/migration']
+[D: 2017-05-12 16:37:16,818] [P: WARN ] [C: ] [T: localhost-startStop-1] [L: org.dozer.config.GlobalSettings] - [M: Dozer configuration file not found: dozer.properties.  Using defaults for all Dozer global properties.]
+[D: 2017-05-12 16:37:20,002] [P: WARN ] [C: ] [T: main] [L: org.springframework.boot.autoconfigure.batch.BasicBatchConfigurer] - [M: JPA does not support custom isolation levels, so locks may not be taken when launching Jobs]
